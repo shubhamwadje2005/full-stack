@@ -7,7 +7,13 @@ const cors = require("cors")
 const app = express()
 app.use(express.json())
 // app.use(cors({ origin: "http://localhost:5173", credentials: true }))
-app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+// app.use(cors({ origin: "http://localhost:3000", credentials: true }))
+app.use(cors({
+    origin: process.env.NODE_ENV === "production"
+        ? "https://full-client.vercel.app"
+        : "http://localhost:3000",
+    credentials: true
+}))
 app.use("/api/todo", require("./routees/todo.routes.js"))
 app.use("/api/auth", require("./routees/auth.routes.js"))
 
